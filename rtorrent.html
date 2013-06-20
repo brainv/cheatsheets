@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Rtorrent
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Global</h3>
+
+<pre><code>^q        Quit
+</code></pre>
+
+<h3>Main view</h3>
+
+<pre><code>bksp      Add torrent
+
+-&gt;        View download
+
+1 - 7     Change view
+
+^S        Start download
+^D        Stop download (or remove stopped)
+^K        Close a torrent
+
++ -       Change priority
+</code></pre>
+
+<h3>Throttling</h3>
+
+<pre><code>a/s/d    Increase the upload throttle by 1/5/50 KB
+z/x/c    Decrease the upload throttle by 1/5/50 KB
+A/S/D    Increase the download throttle by 1/5/50 KB
+Z/X/C    Decrease the download throttle by 1/5/50 KB
+</code></pre>
+
+<h3>Download view</h3>
+
+<pre><code>1/2      Adjust max uploads
+3/4      Adjust min peers
+5/6      Adjust max peers
+</code></pre>
+
+<h3>File list view</h3>
+
+<pre><code>space    Change priority
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

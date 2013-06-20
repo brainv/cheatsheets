@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Google Analytics
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Track events</h3>
+
+<pre><code>// [..., category, action, label, value (int), noninteraction (bool)]
+_gaq.push([&#39;_trackEvent&#39;, &#39;Videos&#39;, &#39;Play&#39;, &#39;Birthday video&#39;, true])
+_gaq.push([&#39;_trackEvent&#39;, &#39;Projects&#39;, &#39;Donate&#39;, &#39;Project name&#39;])
+_gaq.push([&#39;_trackEvent&#39;, &#39;Accounts&#39;, &#39;Login&#39;])
+</code></pre>
+
+<h3>Variables</h3>
+
+<pre><code>// [..., index, name, value, scope (optional)]
+_gaq.push([&#39;_setCustomVar&#39;, 1, &#39;Logged in&#39;, &#39;Yes&#39;, 2]);
+
+// Scope = 1 (visitor), 2 (session), 3 (page, default)
+</code></pre>
+
+<p>https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingCustomVariables
+https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide</p>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

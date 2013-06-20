@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Command line stuff
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h2>List (ls)</h2>
+
+<p>Usage:</p>
+
+<pre><code>ls [options] [paths]
+</code></pre>
+
+<p>Format:</p>
+
+<pre><code>-1   One entry per line
+-l   Long view
+-o   Long view (without groups)
+-C   Multicolumn (sorted horizontally)
+-x   Multicolumn (sorted vertically)
+
+-F   Add / after directories
+-G   Color
+</code></pre>
+
+<p>Options:</p>
+
+<pre><code>-R   Recurse
+-a   Include hidden (dotfiles)
+-A   Include hidden (but not . and ..)
+</code></pre>
+
+<p>Sorting:</p>
+
+<pre><code>-r   reverse order
+-S   sort by size
+-t   sort by time modified
+-u   sort by time accessed
+-U   sort by time created
+-c   sort by time status was changed
+
+-h   Human-readable size (3k)
+</code></pre>
+
+<h2>Find (find)</h2>
+
+<p>Usage:</p>
+
+<pre><code>find &lt;path&gt; &lt;conditions&gt; &lt;actions&gt;
+</code></pre>
+
+<p>Conditions:</p>
+
+<pre><code>-name &quot;*.c&quot;
+
+-user jonathan
+-nouser
+
+-type f            # File
+-type d            # Directory
+-type l            # Symlink
+
+-depth 2           # At least 3 levels deep
+-regex PATTERN
+
+-newer   file.txt
+-newerm  file.txt        # modified newer than file.txt
+-newerX  file.txt        # [c]hange, [m]odified, [B]create
+-newerXt &quot;1 hour ago&quot;    # [t]imestamp
+</code></pre>
+
+<p>Condition flow:</p>
+
+<pre><code>\! -name &quot;*.c&quot;
+\( x -or y \)
+</code></pre>
+
+<p>Actions:</p>
+
+<pre><code>-exec rm {} \;
+-print
+-delete
+</code></pre>
+
+<p>Examples:</p>
+
+<pre><code>find . -name &#39;*.jpg&#39;
+find . -name &#39;*.jpg&#39; -exec rm {} \;
+
+find . -newerBt &quot;24 hours ago&quot;
+</code></pre>
+
+<h2>Tail</h2>
+
+<p>Usage:</p>
+
+<pre><code>tail [-F | -f | -r] [-bN | -cN | -nN] [file ...]
+</code></pre>
+
+<p>Modes:</p>
+
+<pre><code>-f     # follow
+-F     # follow by filename (accounts for log rotation)
+-r     # Reverse order
+</code></pre>
+
+<p>Options:</p>
+
+<pre><code>-bN    # N*512 bytes
+-cN    # N bytes
+-nN    # N lines
+
++N     # Start from line N
+</code></pre>
+
+<h2>Sudo</h2>
+
+<p>Listing:</p>
+
+<pre><code>-l           # List allowed commands
+</code></pre>
+
+<p>Options:</p>
+
+<pre><code>-A           # Use $SUDO_ASKPASS
+-b           # Run in background
+-E           # Preserve environment
+-H           # use target&#39;s $HOME
+-n           # Don&#39;t prompt for password
+-P           # Preserve group vector
+-S           # Read password from stdin
+</code></pre>
+
+<p>File descriptors:</p>
+
+<pre><code>-C fd        # Close all open file descriptors
+</code></pre>
+
+<p>Prompt:</p>
+
+<pre><code>-p prompt    # Custom prompt (-p &quot;%p password:&quot;)
+</code></pre>
+
+<p>Interactive:</p>
+
+<pre><code>-i [cmd]     # Interactive shell without variables
+-s [cmd]     # Interactive shell
+
+-u user      # run as this user
+-g group     # run as this group
+</code></pre>
+
+<p>Timestamp:</p>
+
+<pre><code>-v           # revalidate timestamp for 5 mins
+-k           # invalidate timestamp
+-K           # just like -k
+</code></pre>
+
+<h2>wc (Word count)</h2>
+
+<pre><code>-c   # Bytes
+-l   # Lines
+-m   # Characters (incl multi-byte)
+-w   # Words
+</code></pre>
+
+<h2>Search-and-replace in all files</h2>
+
+<pre><code>perl -p -i -e &#39;s/hello/HELLO/g&#39; **/*
+</code></pre>
+
+<h2>Grep</h2>
+
+<pre><code>-A num      # Print `num` lines of training context
+
+-G          # --basic-regexp (default)
+-E          # --extended-regexp
+-P          # --perl-regexp
+
+-f file     # --file (Get patterns for file)
+-F          # --fixed-strings
+
+-h          # --no-filename
+-H          # --with-filename
+
+-l          # --files-with-matches (just print filenames)
+-L          # --files-without-match
+
+-r, -R      # --recursive
+-v          # --invert-match
+-i          # --ignore-case
+</code></pre>
+
+<p>Synonyms:</p>
+
+<pre><code>egrep  =&gt;  grep -E
+fgrep  =&gt;  grep -F
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

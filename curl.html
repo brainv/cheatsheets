@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Curl
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <p>Options:</p>
+
+<pre><code>-o &lt;file&gt;    # --output: write to file
+-u user:pass # --user: Authentication
+
+-v           # --verbose
+-vv          # Even more verbose
+</code></pre>
+
+<p>Data options:</p>
+
+<pre><code>-d &lt;data&gt;    # --data: HTTP post data, URL encoded (eg, status=&quot;Hello&quot;)
+-G           # --get: send -d data via get
+</code></pre>
+
+<p>Headers:</p>
+
+<pre><code>-A &lt;str&gt;         # --user-agent
+-b name=val      # --cookie
+-b FILE          # --cookie
+-H &quot;X-Foo: y&quot;    # --header
+</code></pre>
+
+<p>SSL:</p>
+
+<p>--cacert <file>
+   --capath <dir></p>
+
+<p>-E <cert>     # --ecrt: Client cert file
+   --cert-type   # der/pem/eng</p>
+
+<h2>Examples</h2>
+
+<pre><code># Post data:
+  curl -d password=x http://x.com/y
+
+# Auth/data:
+  curl -u user:pass -d status=&quot;Hello&quot; http://twitter.com/statuses/update.xml
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

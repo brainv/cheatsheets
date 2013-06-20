@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Q.js
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Creating promises (Q.promise)</h3>
+
+<pre><code>Q.promise (resolve, reject) -&gt;
+  asyncFunction -&gt;
+    if error
+      reject new Error(&quot;Failure&quot;)
+    else
+      resolve deferred
+</code></pre>
+
+<h3>Creating promises from Node</h3>
+
+<pre><code># Works like .call() or .apply()
+
+Q.nfcall(FS.readFile, &#39;foo.txt&#39;, &#39;utf-8&#39;)
+.then -&gt; ...
+
+Q.nfapply(FS.readFile, [&#39;foo.txt&#39;, &#39;utf-8&#39;])
+.then -&gt; ...
+
+Q.npost(FS, &#39;readFile&#39;, [&#39;foo.txt, &#39;utf-8&#39;])
+.then -&gt; ...
+
+Q.npost(FS, &#39;readFile&#39;, &#39;foo.txt, &#39;utf-8&#39;)
+.then -&gt; ...
+
+readFile = Q.denodeify(FS.readFile)
+readFile(&#39;foo.txt&#39;).then -&gt; ...
+</code></pre>
+
+<h3>Promises to Node async</h3>
+
+<pre><code>createUser = (next) -&gt;
+  promiseMaker()
+  .nodeify(next)
+</code></pre>
+
+<h3>Promise sugars</h3>
+
+<pre><code># Shortcut for .then(ok, fail, progress)
+promise
+.then (data) -&gt;
+.catch (err) -&gt;
+.progress (percent) -&gt;
+</code></pre>
+
+<h3>Try</h3>
+
+<p>Q.try -&gt;
+    promise()</p>
+
+<p>.catch (e) -&gt;
+    console.error &quot;Oh well&quot;, e</p>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

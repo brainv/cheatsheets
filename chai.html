@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Chai
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Assert</h3>
+
+<pre><code>assert(val)
+assert.fail(actual, expected)
+assert.ok(val) // is truthy
+assert.equal(actual, expected) // &#39;compare with ==&#39;
+assert.strictEqual
+assert.deepEqual
+
+assert.isTrue
+assert.isFalse
+
+assert.isNull
+assert.isNotNull
+assert.isUndefined
+assert.isDefined
+assert.isFunction
+assert.isObject
+assert.isArray
+assert.isString
+assert.isNumber
+assert.isBoolean
+
+assert.typeOf(/tea/, &#39;regexp&#39;) // Object.prototype.toString()
+assert.instanceOf(chai, Tea)
+assert.include([ a,b,c ], a)
+assert.match(val, /regexp/)
+assert.property(obj, &#39;tea&#39;) // &#39;tea&#39; in object
+assert.deepProperty(obj, &#39;tea.green&#39;)
+assert.propertyVal(person, &#39;name&#39;, &#39;John&#39;)
+assert.deepPropertyVal(post, &#39;author.name&#39;, &#39;John&#39;)
+
+assert.lengthOf(object, 3)
+assert.throws(function() { ... })
+assert.throws(function() { ... }, /reference error/)
+assert.doesNotThrow
+
+assert.operator(1, &#39;&lt;&#39;, 2)
+assert.closeTo(actual, expected)
+</code></pre>
+
+<h3>Should: chains</h3>
+
+<pre><code>.to .be .been .is .that .and .have .with .at .of .same
+</code></pre>
+
+<h3>Should not</h3>
+
+<pre><code>expect(object).not.equal(&#39;x&#39;)
+</code></pre>
+
+<h3>Expectations</h3>
+
+<pre><code>.equal(expected)
+.eql // deepequal
+.deep.equal(expected)
+.be.a(&#39;string&#39;)
+.include(val)
+.be.ok(val)
+.be.true
+.be.false
+.be.null
+.be.undefined
+.exist
+.be.empty
+.be.arguments
+expect(10).above(5)
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li>http://chaijs.com/api/assert/</li>
+</ul>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

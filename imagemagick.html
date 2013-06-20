@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Imagemagick
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Resize to fit</h3>
+
+<pre><code>convert input.jpg -resize 80x80^ -gravity center -extent 80x80 icon.png
+</code></pre>
+
+<h3>Convert all images to another format</h3>
+
+<pre><code>mogrify -format jpg -quality 85 *.png
+</code></pre>
+
+<h3>Make a pdf</h3>
+
+<pre><code>convert *.jpg hello.pdf
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li>http://www.noah.org/wiki/ImageMagick</li>
+</ul>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

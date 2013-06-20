@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Package JSON
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Basic</h3>
+
+<pre><code>{
+  &quot;name&quot;: &quot;expo&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;keywords&quot;: [&quot;&quot;],
+  &quot;author&quot;: &quot;Rico Sta. Cruz &lt;hi@ricostacruz.com&gt;&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;engines&quot;: {&quot;node&quot;: &quot;&gt;=0.8.0&quot;},
+}
+</code></pre>
+
+<h3>Dependencies</h3>
+
+<pre><code>&quot;dependencies&quot;: {
+  &quot;colors&quot;   :  &quot;*&quot;,
+  &quot;flatiron&quot; :  &quot;0.1.x&quot;,
+  &quot;flatiron&quot; :  &quot;~0.1.0&quot;,
+  &quot;plates&quot;   :  &quot;https://github.com/:user/:project/tarball/:branch&quot;,
+  &quot;stuff&quot;:      &quot;git://github.com/user/project.git#commit-ish&quot;
+},
+&quot;devDependencies&quot;: { ... },
+</code></pre>
+
+<h3>Scripts</h3>
+
+<p>&quot;scripts&quot;: {
+     &quot;start&quot;: &quot;node ./bin/xxx&quot;,       /* npm start <em>/
+     &quot;test&quot;: &quot;vows --spec --isolate&quot;, /</em> npm test */
+   }</p>
+
+<h3>Git</h3>
+
+<pre><code>&quot;repository&quot;: {
+   &quot;type&quot;: &quot;git&quot;,
+   &quot;url&quot;: &quot;https://github.com/nodejitsu/http-server.git&quot;
+ },
+</code></pre>
+
+<h3>Main entry point</h3>
+
+<pre><code>&quot;main&quot;: &quot;index&quot;,
+&quot;main&quot;: &quot;./lib/http-server&quot;,
+</code></pre>
+
+<h3>Bin</h3>
+
+<pre><code>&quot;bin&quot;: {
+  &quot;command&quot;: &quot;./bin/command&quot;
+},
+</code></pre>
+
+<h3>Misc</h3>
+
+<pre><code>&quot;private&quot;: true,
+&quot;preferGlobal&quot;: true,
+&quot;license&quot;: &quot;MIT&quot;
+</code></pre>
+
+<p>http://package.json.nodejitsu.com/</p>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

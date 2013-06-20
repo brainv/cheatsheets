@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Express.js
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Settings</h3>
+
+<pre><code>app.set(&#39;x&#39;, &#39;yyy&#39;)
+app.get(&#39;x&#39;) //=&gt; &#39;yyy&#39;
+
+app.enable(&#39;trust proxy&#39;)
+app.disable(&#39;trust proxy&#39;)
+
+app.enabled(&#39;trust proxy&#39;) //=&gt; true
+</code></pre>
+
+<h3>Env</h3>
+
+<pre><code>app.get(&#39;env&#39;)
+</code></pre>
+
+<h3>Config</h3>
+
+<pre><code>app.configure(&#39;production&#39;, function() {
+  app.set...
+});
+</code></pre>
+
+<h3>Wares</h3>
+
+<pre><code>app.use(express.static(__dirname + &#39;/public&#39;));
+app.use(express.logger());
+</code></pre>
+
+<h3>Helpers</h3>
+
+<pre><code>app.locals({
+  title: &quot;MyApp&quot;,
+});
+</code></pre>
+
+<h3>Request</h3>
+
+<pre><code>req.params
+
+// GET  /user/tj
+req.params.name //=&gt; &quot;tj&quot;
+
+req.params[0]
+
+// GET /search?q=tobi+ferret
+req.query.q // =&gt; &quot;tobi ferret&quot;
+
+req.cookies
+
+req.accepted
+[ { value: &#39;application/json&#39;, quality: 1, type: &#39;application&#39;, subtype: &#39;json&#39; },
+  { value: &#39;text/html&#39;, quality: 0.5, type: &#39;text&#39;,subtype: &#39;html&#39; } ]
+
+req.is(&#39;html&#39;)
+req.is(&#39;text/html&#39;)
+
+req.path
+req.xhr
+</code></pre>
+
+<h2>Response</h2>
+
+<pre><code>res.redirect(&#39;/&#39;)
+res.redirect(301, &#39;/&#39;)
+
+res.set(&#39;Content-Type&#39;, &#39;text/html&#39;)
+
+res.send(&#39;hi&#39;)
+res.send(200, &#39;hi&#39;)
+
+res.json({ a: 2 })
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Internet Explorer
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>IE7+ only</h3>
+
+<ul>
+<li>Selectors:
+
+<ul>
+<li><code>&gt;</code> <em>(descendant)</em></li>
+<li><code>[attr]</code> <em>(attribute)</em></li>
+<li><code>.class1.class2</code> <em>(multiple classes)</em></li>
+<li><code>~</code> <em>(sibling)</em></li>
+</ul></li>
+<li>CSS properties:
+
+<ul>
+<li><code>max-width</code></li>
+<li><code>position: fixed</code></li>
+</ul></li>
+</ul>
+
+<h3>IE8+ only</h3>
+
+<ul>
+<li>Selectors/pseudos: (<a href="http://selectivizr.com/">polyfill: selectivizr</a>)
+
+<ul>
+<li><code>+</code> <em>(adjacent)</em></li>
+<li><code>:first-child</code> <sup>1</sup></li>
+<li><code>:focus</code></li>
+<li><code>:before</code>, <code>:after</code> <em>(single colon only)</em></li>
+</ul></li>
+<li>CSS properties:
+
+<ul>
+<li><code>outline</code></li>
+<li><code>display: inline-block</code> <sup>2</sup></li>
+<li><code>display: table</code></li>
+<li><code>border-collapse</code>, <code>border-spacing</code>, <code>table-layout</code>, ...</li>
+<li><code>whitespace: pre-wrap</code></li>
+<li><code>whitespace: pre-line</code></li>
+<li><code>box-sizing</code></li>
+</ul></li>
+<li>Features:
+
+<ul>
+<li>PNG alpha transparency</li>
+<li><code>data:</code> URI</li>
+</ul></li>
+<li>JS features:
+
+<ul>
+<li>JSON parsing</li>
+<li>Cross-origin resource sharing</li>
+</ul></li>
+</ul>
+
+<h2>IE9+ only</h2>
+
+<ul>
+<li>Selectors/pseudos: (<a href="http://selectivizr.com/">polyfill: selectivizr</a>)
+
+<ul>
+<li><code>:first-of-type</code>, <code>:last-of-type</code></li>
+<li><code>:last-child</code></li>
+<li><code>:empty</code></li>
+<li><code>:enabled</code>, <code>:disabled</code>, <code>:checked</code></li>
+<li><code>:not()</code></li>
+<li><code>:nth-child()</code>, <code>:nth-last-child()</code>,</li>
+<li><code>:nth-of-type()</code>, <code>:nth-last-of-type()</code>, <code>:only-of-type()</code></li>
+<li><code>:only-child()</code></li>
+<li><code>:target</code></li>
+<li><code>::selection</code></li>
+</ul></li>
+<li>CSS properties:
+
+<ul>
+<li><code>background-clip</code></li>
+<li><code>background-origin</code></li>
+<li><code>background-size</code></li>
+<li><code>background: x, y, z</code> <em>(multiple backgrounds)</em></li>
+<li><code>opacity</code></li>
+<li><code>border-radius</code></li>
+<li><code>box-shadow</code></li>
+<li><code>rgba()</code></li>
+<li><code>transform</code></li>
+</ul></li>
+<li>CSS features:
+
+<ul>
+<li><code>@media</code> queries (<a href="https://github.com/scottjehl/Respond">polyfill: respond.js</a>)</li>
+</ul></li>
+<li>HTML5 features:
+
+<ul>
+<li><code>&lt;canvas&gt;</code></li>
+<li><code>&lt;svg&gt;</code></li>
+<li><code>&lt;img src=&#39;image.svg&#39;&gt;</code></li>
+</ul></li>
+</ul>
+
+<h3>IE10+ only</h3>
+
+<ul>
+<li>CSS features:
+
+<ul>
+<li><code>animation</code></li>
+<li><code>transition</code></li>
+<li><code>linear-gradient()</code></li>
+</ul></li>
+<li>HTML features:
+
+<ul>
+<li><code>&lt;input placeholder=&#39;..&#39;&gt;</code></li>
+<li><code>&lt;input type=&#39;range&#39;&gt;</code></li>
+</ul></li>
+<li>JS features:
+
+<ul>
+<li>Web sockets</li>
+</ul></li>
+</ul>
+
+<h3>Not in IE10 (or below) at all</h3>
+
+<ul>
+<li><code>text-shadow</code> (<a href="https://github.com/heygrady/textshadow">polyfill</a>)</li>
+</ul>
+
+<h2>Polyfills</h2>
+
+<p>Always install these in almost every project:</p>
+
+<ul>
+<li><a href="http://selectivizr.com/">selectivizr</a> for selectors</li>
+<li><a href="https://code.google.com/p/html5shiv/">html5shiv</a> for new HTML tags</li>
+<li><a href="https://github.com/douglascrockford/JSON-js">json2</a> for JSON parsing (IE7 below)</li>
+<li><a href="https://github.com/scottjehl/Respond">respond</a> for media queries</li>
+</ul>
+
+<p>You may also need these:</p>
+
+<ul>
+<li><a href="https://modernizr.com">modernizr</a> for feature detection and new HTML tags</li>
+</ul>
+
+<p>for CSS3 decorations:</p>
+
+<ul>
+<li><a href="http://css3pie.com/">css3pie</a></li>
+<li><a href="https://github.com/zoltan-dulac/cssSandpaper">cssSandpaper</a></li>
+<li><a href="http://ecsstender.org/">ecsstender</a></li>
+</ul>
+
+<p>Also see:</p>
+
+<ul>
+<li><a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills">Cross-browser polyfills list</a></li>
+</ul>
+
+<h2>Misc</h2>
+
+<h3>IE Conditional comment HTML</h3>
+
+<pre><code>&lt;!--[if lt IE 7 ]&gt; &lt;html class=&quot;ie6&quot;&gt; &lt;![endif]--&gt;
+&lt;!--[if IE 7 ]&gt;    &lt;html class=&quot;ie7&quot;&gt; &lt;![endif]--&gt;
+&lt;!--[if IE 8 ]&gt;    &lt;html class=&quot;ie8&quot;&gt; &lt;![endif]--&gt;
+&lt;!--[if IE 9 ]&gt;    &lt;html class=&quot;ie9&quot;&gt; &lt;![endif]--&gt;
+&lt;!--[if (gt IE 9)|!(IE)]&gt;&lt;!--&gt; &lt;html class=&quot;&quot;&gt; &lt;!--&lt;![endif]--&gt;
+</code></pre>
+
+<h3>IE conditionals</h3>
+
+<pre><code>&lt;!--[if IE]&gt;      I&#39;m IE      &lt;![endif]--&gt;
+&lt;!--[if !IE]&gt; --&gt; Not IE &lt;!-- &lt;![endif]--&gt;
+</code></pre>
+
+<h2>Footnotes</h2>
+
+<ul>
+<li>(1) = doesn&#39;t work for elements inserted via JS</li>
+<li>(2) = IE6/7 can only support inline-block for elements that are naturally 
+inline, like span</li>
+</ul>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

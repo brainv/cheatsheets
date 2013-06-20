@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      rename
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Installation</h3>
+
+<pre><code># http://plasmasturm.org/code/rename/
+  brew install rename
+</code></pre>
+
+<h3>Examples</h3>
+
+<pre><code># Rename hello.txt to world.txt and so on
+  rename &#39;s/hello/world/&#39; *.txt
+
+# Search and replace
+  rename -s .png .jpg.png *.png
+</code></pre>
+
+<h3>Options</h3>
+
+<pre><code>-n    # Simulation
+-l    # Symlink instead of rename
+-i    # Interactive
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

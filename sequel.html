@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Sequel
+      <a class='back' href='.'>Index</a>
+    </h1>
+    
+<h1 id="label-Cheat+Sheet+++">Cheat Sheet   <span><a href="#label-Cheat+Sheet+++">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<h2 id="label-Open+a+database">Open a database<span><a href="#label-Open+a+database">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubygems&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;sequel&#39;</span>
+
+<span class="ruby-constant">DB</span> = <span class="ruby-constant">Sequel</span>.<span class="ruby-identifier">sqlite</span>(<span class="ruby-string">&#39;my_blog.db&#39;</span>)
+<span class="ruby-constant">DB</span> = <span class="ruby-constant">Sequel</span>.<span class="ruby-identifier">connect</span>(<span class="ruby-string">&#39;postgres://user:password@localhost/my_db&#39;</span>)
+<span class="ruby-constant">DB</span> = <span class="ruby-constant">Sequel</span>.<span class="ruby-identifier">postgres</span>(<span class="ruby-string">&#39;my_db&#39;</span>, :<span class="ruby-identifier">user</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;user&#39;</span>, :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;password&#39;</span>, :<span class="ruby-identifier">host</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;localhost&#39;</span>)
+<span class="ruby-constant">DB</span> = <span class="ruby-constant">Sequel</span>.<span class="ruby-identifier">ado</span>(<span class="ruby-string">&#39;mydb&#39;</span>)
+</pre>
+
+<h2 id="label-Open+an+SQLite+memory+database">Open an SQLite memory database<span><a href="#label-Open+an+SQLite+memory+database">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Without a filename argument, the sqlite adapter will setup a new sqlite
+database in memory.</p>
+
+<pre>DB = Sequel.sqlite</pre>
+
+<h2 id="label-Logging+SQL+statements">Logging SQL statements<span><a href="#label-Logging+SQL+statements">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;logger&#39;</span>
+<span class="ruby-constant">DB</span> = <span class="ruby-constant">Sequel</span>.<span class="ruby-identifier">sqlite</span> <span class="ruby-string">&#39;&#39;</span>, :<span class="ruby-identifier">loggers</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">$stdout</span>)]
+<span class="ruby-comment"># or</span>
+<span class="ruby-constant">DB</span>.<span class="ruby-identifier">loggers</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">...</span>)
+</pre>
+
+<h2 id="label-Using+raw+SQL">Using raw SQL<span><a href="#label-Using+raw+SQL">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>.<span class="ruby-identifier">run</span> <span class="ruby-string">&quot;CREATE TABLE users (name VARCHAR(255) NOT NULL, age INT(3) NOT NULL)&quot;</span>
+<span class="ruby-identifier">dataset</span> = <span class="ruby-constant">DB</span>[<span class="ruby-string">&quot;SELECT age FROM users WHERE name = ?&quot;</span>, <span class="ruby-identifier">name</span>]
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">map</span>(:<span class="ruby-identifier">age</span>)
+<span class="ruby-constant">DB</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-string">&quot;SELECT name FROM users&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">p</span> <span class="ruby-identifier">row</span>[:<span class="ruby-identifier">name</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<h2 id="label-Create+a+dataset">Create a dataset<span><a href="#label-Create+a+dataset">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>dataset = DB[:items]
+dataset = DB.from(:items)</pre>
+
+<h2 id="label-Most+dataset+methods+are+chainable">Most dataset methods are chainable<span><a href="#label-Most+dataset+methods+are+chainable">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span> = <span class="ruby-constant">DB</span>[:<span class="ruby-identifier">managers</span>].<span class="ruby-identifier">where</span>(:<span class="ruby-identifier">salary</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5000</span><span class="ruby-operator">..</span><span class="ruby-value">10000</span>).<span class="ruby-identifier">order</span>(:<span class="ruby-identifier">name</span>, :<span class="ruby-identifier">department</span>)
+</pre>
+
+<h2 id="label-Insert+rows">Insert rows<span><a href="#label-Insert+rows">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">insert</span>(:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Sharon&#39;</span>, :<span class="ruby-identifier">grade</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span>)
+</pre>
+
+<h2 id="label-Retrieve+rows">Retrieve rows<span><a href="#label-Retrieve+rows">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span> <span class="ruby-identifier">r</span>}
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">all</span> <span class="ruby-comment"># =&gt; [{...}, {...}, ...]</span>
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">first</span> <span class="ruby-comment"># =&gt; {...}</span>
+</pre>
+
+<h2 id="label-Update%2FDelete+rows">Update/Delete rows<span><a href="#label-Update%2FDelete+rows">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-operator">~</span>:<span class="ruby-identifier">active</span>).<span class="ruby-identifier">delete</span>
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-string">&#39;price &lt; ?&#39;</span>, <span class="ruby-value">100</span>).<span class="ruby-identifier">update</span>(:<span class="ruby-identifier">active</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+</pre>
+
+<h2 id="label-Datasets+are+Enumerable">Datasets are Enumerable<span><a href="#label-Datasets+are+Enumerable">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>[:<span class="ruby-identifier">name</span>]}
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">map</span>(:<span class="ruby-identifier">name</span>) <span class="ruby-comment"># same as above</span>
+
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sum</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r</span>[:<span class="ruby-identifier">value</span>]}
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">sum</span>(:<span class="ruby-identifier">value</span>) <span class="ruby-comment"># same as above</span>
+</pre>
+
+<h2 id="label-Filtering+%28see+also+doc%2Fdataset_filtering.rdoc%29">Filtering (see also doc/dataset_filtering.rdoc)<span><a href="#label-Filtering+%28see+also+doc%2Fdataset_filtering.rdoc%29">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<h3 id="label-Equality">Equality<span><a href="#label-Equality">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">filter</span>(:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;abc&#39;</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-string">&#39;name = ?&#39;</span>, <span class="ruby-string">&#39;abc&#39;</span>)
+</pre>
+
+<h3 id="label-Inequality">Inequality<span><a href="#label-Inequality">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre>dataset.filter{value &gt; 100}
+dataset.exclude{value &lt;= 100}</pre>
+
+<h3 id="label-Inclusion">Inclusion<span><a href="#label-Inclusion">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">filter</span>(:<span class="ruby-identifier">value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span><span class="ruby-operator">..</span><span class="ruby-value">100</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">where</span>{(<span class="ruby-identifier">value</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">50</span>) <span class="ruby-operator">&amp;</span> (<span class="ruby-identifier">value</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">100</span>)}
+
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&#39;value IN ?&#39;</span>, [<span class="ruby-value">50</span>,<span class="ruby-value">75</span>,<span class="ruby-value">100</span>])
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">where</span>(:<span class="ruby-identifier">value=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-value">50</span>,<span class="ruby-value">75</span>,<span class="ruby-value">100</span>])
+
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">where</span>(:<span class="ruby-identifier">id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">other_dataset</span>.<span class="ruby-identifier">select</span>(:<span class="ruby-identifier">other_id</span>))
+</pre>
+
+<h3 id="label-Subselects+as+scalar+values">Subselects as scalar values<span><a href="#label-Subselects+as+scalar+values">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre>dataset.where(&#39;price &gt; (SELECT avg(price) + 100 FROM table)&#39;)
+dataset.filter{price &gt; dataset.select(avg(price) + 100)}</pre>
+
+<h3 id="label-LIKE%2FRegexp">LIKE/Regexp<span><a href="#label-LIKE%2FRegexp">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>[:<span class="ruby-identifier">items</span>].<span class="ruby-identifier">filter</span>(:<span class="ruby-identifier">name</span>.<span class="ruby-identifier">like</span>(<span class="ruby-string">&#39;AL%&#39;</span>))
+<span class="ruby-constant">DB</span>[:<span class="ruby-identifier">items</span>].<span class="ruby-identifier">filter</span>(:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">/^AL/</span>)
+</pre>
+
+<h3 id="label-AND%2FOR%2FNOT">AND/OR/NOT<span><a href="#label-AND%2FOR%2FNOT">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>[:<span class="ruby-identifier">items</span>].<span class="ruby-identifier">filter</span>{(<span class="ruby-identifier">x</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>) <span class="ruby-operator">&amp;</span> (<span class="ruby-identifier">y</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>)}.<span class="ruby-identifier">sql</span> 
+<span class="ruby-comment"># SELECT * FROM items WHERE ((x &gt; 5) AND (y &gt; 10))</span>
+
+<span class="ruby-constant">DB</span>[:<span class="ruby-identifier">items</span>].<span class="ruby-identifier">filter</span>({:<span class="ruby-identifier">x</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, :<span class="ruby-identifier">y</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>}.<span class="ruby-identifier">sql_or</span> <span class="ruby-operator">&amp;</span> <span class="ruby-operator">~</span>{:<span class="ruby-identifier">z</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>}).<span class="ruby-identifier">sql</span> 
+<span class="ruby-comment"># SELECT * FROM items WHERE (((x = 1) OR (y = 2)) AND (z != 3))</span>
+</pre>
+
+<h3 id="label-Mathematical+operators">Mathematical operators<span><a href="#label-Mathematical+operators">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre>DB[:items].filter((:x + :y) &gt; :z).sql 
+# SELECT * FROM items WHERE ((x + y) &gt; z)
+
+DB[:items].filter{price - 100 &lt; avg(price)}.sql 
+# SELECT * FROM items WHERE ((price - 100) &lt; avg(price))</pre>
+
+<h2 id="label-Ordering">Ordering<span><a href="#label-Ordering">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>dataset.order(:kind)
+dataset.reverse_order(:kind)
+dataset.order(:kind.desc, :name)</pre>
+
+<h2 id="label-Limit%2FOffset">Limit/Offset<span><a href="#label-Limit%2FOffset">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>dataset.limit(30) # LIMIT 30
+dataset.limit(30, 10) # LIMIT 30 OFFSET 10</pre>
+
+<h2 id="label-Joins">Joins<span><a href="#label-Joins">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>[:<span class="ruby-identifier">items</span>].<span class="ruby-identifier">left_outer_join</span>(:<span class="ruby-identifier">categories</span>, :<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">category_id</span>).<span class="ruby-identifier">sql</span> 
+<span class="ruby-comment"># SELECT * FROM items LEFT OUTER JOIN categories ON categories.id = items.category_id</span>
+
+<span class="ruby-constant">DB</span>[:<span class="ruby-identifier">items</span>].<span class="ruby-identifier">join</span>(:<span class="ruby-identifier">categories</span>, :<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">category_id</span>).<span class="ruby-identifier">join</span>(:<span class="ruby-identifier">groups</span>, :<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">items__group_id</span>) 
+<span class="ruby-comment"># SELECT * FROM items INNER JOIN categories ON categories.id = items.category_id INNER JOIN groups ON groups.id = items.group_id</span>
+</pre>
+
+<p></p>
+
+<h2 id="label-Aggregate+functions+methods">Aggregate functions methods<span><a href="#label-Aggregate+functions+methods">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">count</span> <span class="ruby-comment">#=&gt; record count</span>
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">max</span>(:<span class="ruby-identifier">price</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">min</span>(:<span class="ruby-identifier">price</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">avg</span>(:<span class="ruby-identifier">price</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">sum</span>(:<span class="ruby-identifier">stock</span>)
+
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">group_and_count</span>(:<span class="ruby-identifier">category</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">group</span>(:<span class="ruby-identifier">category</span>).<span class="ruby-identifier">select</span>(:<span class="ruby-identifier">category</span>, :<span class="ruby-constant">AVG</span>.<span class="ruby-identifier">sql_function</span>(:<span class="ruby-identifier">price</span>))
+</pre>
+
+<h2 id="label-SQL+Functions+%2F+Literals">SQL Functions / Literals<span><a href="#label-SQL+Functions+%2F+Literals">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">update</span>(:<span class="ruby-identifier">updated_at</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-constant">NOW</span>.<span class="ruby-identifier">sql_function</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">update</span>(:<span class="ruby-identifier">updated_at</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;NOW()&#39;</span>.<span class="ruby-identifier">lit</span>)
+
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">update</span>(:<span class="ruby-identifier">updated_at</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;DateValue(&#39;1/1/2001&#39;)&quot;</span>.<span class="ruby-identifier">lit</span>)
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">update</span>(:<span class="ruby-identifier">updated_at</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-constant">DateValue</span>.<span class="ruby-identifier">sql_function</span>(<span class="ruby-string">&#39;1/1/2001&#39;</span>))
+</pre>
+
+<h2 id="label-Schema+Manipulation">Schema Manipulation<span><a href="#label-Schema+Manipulation">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>.<span class="ruby-identifier">create_table</span> :<span class="ruby-identifier">items</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">primary_key</span> :<span class="ruby-identifier">id</span>
+  <span class="ruby-constant">String</span> :<span class="ruby-identifier">name</span>, :<span class="ruby-identifier">unique</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, :<span class="ruby-identifier">null</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-constant">TrueClass</span> :<span class="ruby-identifier">active</span>, :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">foreign_key</span> :<span class="ruby-identifier">category_id</span>, :<span class="ruby-identifier">categories</span>
+  <span class="ruby-constant">DateTime</span> :<span class="ruby-identifier">created_at</span>
+
+  <span class="ruby-identifier">index</span> :<span class="ruby-identifier">created_at</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-constant">DB</span>.<span class="ruby-identifier">drop_table</span> :<span class="ruby-identifier">items</span>
+
+<span class="ruby-constant">DB</span>.<span class="ruby-identifier">create_table</span> :<span class="ruby-identifier">test</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-constant">String</span> :<span class="ruby-identifier">zipcode</span>
+  <span class="ruby-identifier">enum</span> :<span class="ruby-identifier">system</span>, :<span class="ruby-identifier">elements</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&#39;mac&#39;</span>, <span class="ruby-string">&#39;linux&#39;</span>, <span class="ruby-string">&#39;windows&#39;</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<h2 id="label-Aliasing">Aliasing<span><a href="#label-Aliasing">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>DB[:items].select(:name.as(:item_name))
+DB[:items].select(:name___item_name)
+DB[:items___items_table].select(:items_table__name___item_name)
+# SELECT items_table.name AS item_name FROM items AS items_table</pre>
+
+<h2 id="label-Transactions">Transactions<span><a href="#label-Transactions">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">insert</span>(:<span class="ruby-identifier">first_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Inigo&#39;</span>, :<span class="ruby-identifier">last_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Montoya&#39;</span>)
+  <span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">insert</span>(:<span class="ruby-identifier">first_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Farm&#39;</span>, :<span class="ruby-identifier">last_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Boy&#39;</span>)
+<span class="ruby-keyword">end</span> <span class="ruby-comment"># Either both are inserted or neither are inserted</span>
+</pre>
+
+<p>Database#transaction is re-entrant:</p>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span> <span class="ruby-comment"># BEGIN issued only here</span>
+  <span class="ruby-constant">DB</span>.<span class="ruby-identifier">transaction</span>
+    <span class="ruby-identifier">dataset</span> <span class="ruby-operator">&lt;&lt;</span> {:<span class="ruby-identifier">first_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Inigo&#39;</span>, :<span class="ruby-identifier">last_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Montoya&#39;</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span> <span class="ruby-comment"># COMMIT issued only here</span>
+</pre>
+
+<p>Transactions are aborted if an error is raised:</p>
+
+<pre>DB.transaction do
+  raise &quot;some error occurred&quot;
+end # ROLLBACK issued and the error is re-raised</pre>
+
+<p>Transactions can also be aborted by raising Sequel::Rollback:</p>
+
+<pre>DB.transaction do
+  raise(Sequel::Rollback) if something_bad_happened
+end # ROLLBACK issued and no error raised</pre>
+
+<p>Savepoints can be used if the database supports it:</p>
+
+<pre class="ruby"><span class="ruby-constant">DB</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">dataset</span> <span class="ruby-operator">&lt;&lt;</span> {:<span class="ruby-identifier">first_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Farm&#39;</span>, :<span class="ruby-identifier">last_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Boy&#39;</span>} <span class="ruby-comment"># Inserted</span>
+  <span class="ruby-constant">DB</span>.<span class="ruby-identifier">transaction</span>(:<span class="ruby-identifier">savepoint=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>) <span class="ruby-comment"># This savepoint is rolled back</span>
+    <span class="ruby-identifier">dataset</span> <span class="ruby-operator">&lt;&lt;</span> {:<span class="ruby-identifier">first_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Inigo&#39;</span>, :<span class="ruby-identifier">last_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Montoya&#39;</span>} <span class="ruby-comment"># Not inserted</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">Sequel</span><span class="ruby-operator">::</span><span class="ruby-constant">Rollback</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">something_bad_happened</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">dataset</span> <span class="ruby-operator">&lt;&lt;</span> {:<span class="ruby-identifier">first_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Prince&#39;</span>, :<span class="ruby-identifier">last_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Humperdink&#39;</span>} <span class="ruby-comment"># Inserted</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<h2 id="label-Miscellaneous%3A">Miscellaneous:<span><a href="#label-Miscellaneous%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">sql</span> <span class="ruby-comment"># &quot;SELECT * FROM items&quot;</span>
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">delete_sql</span> <span class="ruby-comment"># &quot;DELETE FROM items&quot;</span>
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">where</span>(:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;sequel&#39;</span>).<span class="ruby-identifier">exists</span> <span class="ruby-comment"># &quot;EXISTS ( SELECT * FROM items WHERE name = &#39;sequel&#39; )&quot;</span>
+<span class="ruby-identifier">dataset</span>.<span class="ruby-identifier">columns</span> <span class="ruby-comment">#=&gt; array of columns in the result set, does a SELECT</span>
+<span class="ruby-constant">DB</span>.<span class="ruby-identifier">schema</span>(:<span class="ruby-identifier">items</span>) =<span class="ruby-operator">&gt;</span> [[:<span class="ruby-identifier">id</span>, {:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span>:<span class="ruby-identifier">integer</span>, <span class="ruby-operator">...</span>}], [:<span class="ruby-identifier">name</span>, {:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span>:<span class="ruby-identifier">string</span>, <span class="ruby-operator">...</span>}], <span class="ruby-operator">...</span>]
+</pre>
+<hr style="height: 10px">
+
+<h2 id="label-Documents">Documents<span><a href="#label-Documents">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>http://sequel.rubyforge.org/rdoc/files/doc/association_basics_rdoc.html
+http://sequel.rubyforge.org/rdoc/classes/Sequel/Schema/Generator.html
+http://sequel.rubyforge.org/rdoc/files/doc/validations_rdoc.html
+http://sequel.rubyforge.org/rdoc/classes/Sequel/Model.html</pre>
+
+<h2 id="label-Alter+table">Alter table<span><a href="#label-Alter+table">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>database.alter_table :deals do
+  add_column :name, String
+  drop_column :column_name
+  rename_column :from, :to
+
+  add_constraint :valid_name, :name.like(&#39;A%&#39;)
+  drop_constraint :constraint
+
+  add_full_text_index :body
+  add_spacial_index [columns]
+
+  add_index :price
+  drop_index :index
+
+  add_foreign_key :artist_id, :table
+  add_primary_key :id
+  add_unique_constraint [columns]
+  set_column_allow_null :foo, false
+  set_column_default :title, &#39;&#39;
+
+  set_column_type :price, &#39;char(10)&#39;
+end</pre>
+
+<h2 id="label-Model+associations">Model associations<span><a href="#label-Model+associations">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">Deal</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Sequel</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span>
+
+  <span class="ruby-comment"># Us (left) &lt;=&gt; Them (right)</span>
+  <span class="ruby-identifier">many_to_many</span>  :<span class="ruby-identifier">images</span>,
+    <span class="ruby-identifier">left_id</span><span class="ruby-operator">:</span>    :<span class="ruby-identifier">deal_id</span>,
+    <span class="ruby-identifier">right_id</span><span class="ruby-operator">:</span>   :<span class="ruby-identifier">image_id</span>,
+    <span class="ruby-identifier">join_table</span><span class="ruby-operator">:</span> :<span class="ruby-identifier">image_links</span>
+
+  <span class="ruby-identifier">one_to_many</span>   :<span class="ruby-identifier">files</span>,
+    <span class="ruby-identifier">key</span><span class="ruby-operator">:</span>        :<span class="ruby-identifier">deal_id</span>,
+    <span class="ruby-identifier">class</span><span class="ruby-operator">:</span>      :<span class="ruby-constant">DataFile</span>,
+
+  <span class="ruby-identifier">many_to_one</span>   :<span class="ruby-identifier">parent</span>, <span class="ruby-identifier">class</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>
+  <span class="ruby-identifier">one_to_many</span>   :<span class="ruby-identifier">children</span>, <span class="ruby-identifier">key</span><span class="ruby-operator">:</span> :<span class="ruby-identifier">parent_id</span>, <span class="ruby-identifier">class</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>
+
+  <span class="ruby-identifier">one_to_many</span> :<span class="ruby-identifier">gold_albums</span>, <span class="ruby-identifier">class</span><span class="ruby-operator">:</span> :<span class="ruby-constant">Album</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ds</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ds</span>.<span class="ruby-identifier">filter</span> { <span class="ruby-identifier">copies_sold</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">50000</span> }
+  <span class="ruby-keyword">end</span>
+</pre>
+
+<p>Provided by many_to_many</p>
+
+<pre>Deal[1].images
+Deal[1].add_image
+Deal[1].remove_image
+Deal[1].remove_all_images</pre>
+
+<h2 id="label-Validations">Validations<span><a href="#label-Validations">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby">  <span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span>
+    <span class="ruby-keyword">super</span>
+    <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(:<span class="ruby-identifier">name</span>, <span class="ruby-string">&#39;cannot be empty&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">name</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">empty?</span>
+
+    <span class="ruby-identifier">validates_presence</span> [:<span class="ruby-identifier">title</span>, :<span class="ruby-identifier">site</span>]
+    <span class="ruby-identifier">validates_unique</span> :<span class="ruby-identifier">name</span>
+    <span class="ruby-identifier">validates_format</span> <span class="ruby-regexp">/\Ahttps?:\/\//</span>, :<span class="ruby-identifier">website</span>, :<span class="ruby-identifier">message=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&#39;is not a valid URL&#39;</span>
+    <span class="ruby-identifier">validates_includes</span> <span class="ruby-node">%w(a b c)</span>, :<span class="ruby-identifier">type</span>
+    <span class="ruby-identifier">validates_integer</span> :<span class="ruby-identifier">rating</span>
+    <span class="ruby-identifier">validates_numeric</span> :<span class="ruby-identifier">number</span>
+    <span class="ruby-identifier">validates_type</span> <span class="ruby-constant">String</span>, [:<span class="ruby-identifier">title</span>, :<span class="ruby-identifier">description</span>]
+
+    <span class="ruby-identifier">validates_integer</span> :<span class="ruby-identifier">rating</span>  <span class="ruby-keyword">if</span> <span class="ruby-identifier">new?</span>
+
+    <span class="ruby-comment"># options: :message =&gt;, :allow_nil =&gt;, :allow_blank =&gt;,</span>
+    <span class="ruby-comment">#          :allow_missing =&gt;,</span>
+
+    <span class="ruby-identifier">validates_exact_length</span> <span class="ruby-value">17</span>, :<span class="ruby-identifier">isbn</span>
+    <span class="ruby-identifier">validates_min_length</span> <span class="ruby-value">3</span>, :<span class="ruby-identifier">name</span>
+    <span class="ruby-identifier">validates_max_length</span> <span class="ruby-value">100</span>, :<span class="ruby-identifier">name</span>
+    <span class="ruby-identifier">validates_length_range</span> <span class="ruby-value">3</span><span class="ruby-operator">..</span><span class="ruby-value">100</span>, :<span class="ruby-identifier">name</span>
+
+    <span class="ruby-comment"># Setter override</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">filename=</span>(<span class="ruby-identifier">name</span>)
+      <span class="ruby-ivar">@values</span>[:<span class="ruby-identifier">filename</span>] = <span class="ruby-identifier">name</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">errors</span>
+</pre>
+
+<h2 id="label-Model+stuff">Model stuff<span><a href="#label-Model+stuff">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">deal</span> = <span class="ruby-constant">Deal</span>[<span class="ruby-value">1</span>]
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">changed_columns</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">destory</span>  <span class="ruby-comment"># Calls hooks</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">delete</span>   <span class="ruby-comment"># No hooks</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">exists?</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">new?</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">hash</span>  <span class="ruby-comment"># Only uniques</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">keys</span>  <span class="ruby-comment">#=&gt; [:id, :name]</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">modified!</span>
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">modified?</span>
+
+<span class="ruby-identifier">deal</span>.<span class="ruby-identifier">lock!</span>
+</pre>
+
+<h2 id="label-Callbacks">Callbacks<span><a href="#label-Callbacks">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>before_create
+after_create
+
+before_validation
+after_validation
+before_save
+before_update
+UPDATE QUERY
+after_update
+after_save
+
+before_destroy
+DELETE QUERY
+after_destroy</pre>
+
+<h2 id="label-Schema">Schema<span><a href="#label-Schema">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">Deal</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Sequel</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span>
+  <span class="ruby-identifier">set_schema</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">primary_key</span> :<span class="ruby-identifier">id</span>
+    <span class="ruby-identifier">primary_key</span> [:<span class="ruby-identifier">id</span>, :<span class="ruby-identifier">title</span>]
+    <span class="ruby-constant">String</span> :<span class="ruby-identifier">name</span>, <span class="ruby-identifier">primary_key</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
+
+    <span class="ruby-constant">String</span>  :<span class="ruby-identifier">title</span>
+    <span class="ruby-constant">Numeric</span> :<span class="ruby-identifier">price</span>
+    <span class="ruby-constant">DateTime</span> :<span class="ruby-identifier">expires</span>
+
+    <span class="ruby-identifier">unique</span> :<span class="ruby-identifier">whatever</span>
+    <span class="ruby-identifier">check</span>(:<span class="ruby-identifier">price</span>) { <span class="ruby-identifier">num</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> }
+
+    <span class="ruby-identifier">foreign_key</span> :<span class="ruby-identifier">artist_id</span>
+    <span class="ruby-constant">String</span> :<span class="ruby-identifier">artist_name</span>, <span class="ruby-identifier">key</span><span class="ruby-operator">:</span> :<span class="ruby-identifier">id</span>
+
+    <span class="ruby-identifier">index</span> :<span class="ruby-identifier">title</span>
+    <span class="ruby-identifier">index</span> [:<span class="ruby-identifier">artist_id</span>, :<span class="ruby-identifier">name</span>]
+    <span class="ruby-identifier">full_text_index</span> :<span class="ruby-identifier">title</span>
+
+    <span class="ruby-comment"># String, Integer, Fixnum, Bignum, Float, Numeric, BigDecimal,</span>
+    <span class="ruby-comment"># Date, DateTime, Time, File, TrueClass, FalseClass</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<h2 id="label-Unrestrict+primary+key">Unrestrict primary key<span><a href="#label-Unrestrict+primary+key">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>Category.create id: &#39;travel&#39;   # error
+Category.unrestrict_primary_key
+Category.create id: &#39;travel&#39;   # ok</pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

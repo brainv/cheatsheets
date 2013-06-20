@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Mocha
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>BDD</h3>
+
+<pre><code>mocha.setup(&#39;bdd&#39;);
+
+describe(&#39;something&#39;, function() {
+  beforeEach(function() {
+  });
+
+  it(&#39;should work&#39;, function() {
+  });
+});
+</code></pre>
+
+<h3>Async</h3>
+
+<pre><code>it(&#39;should save&#39;, function(done) {
+  var user = new User();
+  user.save(function(err) {
+    if (err) throw err;
+    done();
+  });
+});
+</code></pre>
+
+<h3>Chai: Shoulds</h3>
+
+<pre><code>chai.should();
+
+foo.should.be.a(&#39;string&#39;);
+foo.should.equal(&#39;bar&#39;);
+foo.should.have.length(3);
+tea.should.have.property(&#39;flavors&#39;).with.length(3);
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

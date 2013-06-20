@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Bundler
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Gems</h3>
+
+<pre><code>gem &#39;hello&#39;
+gem &#39;hello&#39;, group: &#39;development&#39;
+</code></pre>
+
+<h3>Github support</h3>
+
+<pre><code>gem &#39;hello&#39;, github: &#39;rstacruz/hello&#39;
+gem &#39;hello&#39;, github: &#39;rstacruz/hello&#39;, &#39;branch: master&#39;
+</code></pre>
+
+<h3>Grouping</h3>
+
+<pre><code>group :development do
+  gem &#39;hello&#39;
+end
+</code></pre>
+
+<h3>Deployment</h3>
+
+<pre><code>$ bundle install --without=test,development --deployment
+</code></pre>
+
+<h3>Local gem development</h3>
+
+<p>In your Gemfile, define a Git source and a branch:</p>
+
+<pre><code>gem &#39;hello&#39;, github: &#39;rstacruz/hello&#39;, branch: &#39;master&#39;
+</code></pre>
+
+<p>And then:</p>
+
+<pre><code>$ bundle config --global local.xxx ~/projects/xxx
+</code></pre>
+
+<h3>Rake Gem tasks</h3>
+
+<pre><code># Rakefile
+require &#39;bundler/gem_tasks&#39;
+</code></pre>
+
+<p>Terminal:</p>
+
+<pre><code>$ rake release
+$ rake build
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

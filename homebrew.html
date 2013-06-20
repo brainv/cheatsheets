@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Homebrew
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <p>class Tweetx &lt; Formula
+  homepage &#39;http://code.google.com/p/tweetx/&#39;
+  url &#39;http://tweetx.googlecode.com/files/tweetx-0.1.tar.gz&#39;
+  version &#39;0.1&#39;
+  sha1 &#39;e676f895ac5df1574f6fd4086ee57b9bf8d71e20&#39;</p>
+
+<p>head &#39;https://github.com/b4winckler/macvim.git&#39;, :branch =&gt; &#39;master&#39;</p>
+
+<p>def options
+  [
+    [&quot;--custom-icons&quot;, &quot;Try to generate custom document icons.&quot;],
+  ]
+  end</p>
+
+<p>depends_on &#39;cscope&#39; if ARGV.include? &#39;--with-cscope&#39;</p>
+
+<p>def install
+    system &quot;./configure&quot;,
+      &quot;--prefix=#{prefix}&quot;,
+      &quot;--libdir=#{lib}&quot;
+    system &quot;make install&quot;</p>
+
+<pre><code>man1.install &#39;manpage.1&#39;
+bin.install &quot;foo&quot;
+</code></pre>
+
+<p>end
+end</p>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

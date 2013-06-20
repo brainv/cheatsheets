@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Sinon
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Spy</h3>
+
+<pre><code>var fn = sinon.spy();
+fn();
+fn.calledOnce == true
+fn.callCount == 1
+</code></pre>
+
+<h3>Spy something</h3>
+
+<pre><code>sinon.spy($, &#39;ajax&#39;)
+</code></pre>
+
+<h3>Stub</h3>
+
+<pre><code>var fn = sinon.stub().returns(42);
+fn() == 42
+
+fn.withArgs(42).returns(1);
+fn.withArgs(43).throws(&quot;TypeError&quot;);
+stub.returnsArg(0); // Return 1st argument
+stub.callsArg(0);
+</code></pre>
+
+<h3>Stub something</h3>
+
+<pre><code>sinon.stub($, &#39;ajax&#39;);
+$.ajax.calledWithMatch({ url: &#39;/x&#39; });
+$.ajax.restore();
+
+sinon.stub($, &#39;ajax&#39;, function() { return &#39;x&#39; });
+</code></pre>
+
+<h3>Fake server</h3>
+
+<pre><code>server = sinon.fakeServer.create();
+
+$.get(&#39;/file.json&#39;, ...);
+server.requests[0].respond(
+    200,
+    { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    JSON.stringify([{ id: 1, text: &quot;Provide examples&quot;, done: true }])
+);
+
+server.restore();
+</code></pre>
+
+<h3>Fake XHR</h3>
+
+<pre><code>xhr = sinon.useFakeXMLHttpRequest();
+xhr.restore();
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

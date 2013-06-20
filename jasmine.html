@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Jasmine
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <p><a href="http://pivotal.github.com/jasmine/">Jasmine</a>.</p>
+
+<pre><code>describe(&quot;A suite&quot;, function() {
+  it(&quot;contains spec with an expectation&quot;, function() {
+    expect(true).toBe(true);
+  });
+});
+</code></pre>
+
+<h3>Expectations</h3>
+
+<pre><code>expect(true).toBe(true)
+expect(true).not.toBe(true)
+
+expect(a).toEqual(bar)
+
+expect(message).toMatch(/bar/)
+expect(message).toMatch(&#39;bar&#39;)
+
+expect(a.foo).toBeDefined()
+expect(a.foo).toBeUndefined()
+expect(a.foo).toBeNull()
+
+expect(a.foo).toBeTruthy()
+expect(a.foo).toBeFalsy()
+
+expect(message).toContain(&#39;hello&#39;)
+
+expect(pi).toBeGreaterThan(3)
+expect(pi).toBeLessThan(4)
+expect(pi).toBeCloseTo(3.1415, 0.1)
+
+expect(func).toThrow()
+</code></pre>
+
+<h3>Blocks</h3>
+
+<pre><code>beforeEach(function() { ... });
+afterEach(function() { ... });
+</code></pre>
+
+<h3>Pending</h3>
+
+<pre><code>xit(&quot;this is a pending test&quot;, function() { ... })
+xdescribe(&quot;this is a pending block&quot;, function() { ... })
+</code></pre>
+
+<h3>Spies</h3>
+
+<pre><code>spyOn(foo, &#39;setBar&#39;)
+spyOn(foo, &#39;setBar&#39;).andReturn(123)
+spyOn(foo, &#39;getBar&#39;).andCallFake(function() { return 1001; })
+foo.setBar(123)
+
+expect(foo.setBar).toHaveBeenCalled()
+expect(foo.setBar).toHaveBeenCalledWith(123)
+expect(foo.setBar.calls.length).toEqual(2)
+expect(foo.setBar.calls[0].args[0]).toEqual(123)
+</code></pre>
+
+<h3>Creating spies</h3>
+
+<pre><code>stub = jasmine.createSpy(&#39;stub&#39;)
+stub(&quot;hello&quot;)
+
+expect(whatAmI.identity).toEqual(&quot;stub&quot;)
+expect(whatAmI).toHaveBeenCalled()
+</code></pre>
+
+<h3>Async</h3>
+
+<pre><code>it(&quot;should run async&quot;, function() {
+  var flag = false, value = 0;
+
+  runs(function() {
+    setTimeout(function() { flag = true; }, 500);
+  });
+
+  waitsFor(function() {
+    value++;
+    return flag;
+  }, &quot;increment&quot;, 750);
+
+  runs(function() {
+    expect(value).toBeGreaterThan(0);
+  });
+});
+</code></pre>
+
+<h3>HTML runner</h3>
+
+<pre><code>var jasmineEnv = jasmine.getEnv();
+jasmineEnv.updateInterval = 250;
+
+var htmlReporter = new jasmine.HtmlReporter();
+jasmineEnv.addReporter(htmlReporter);
+
+$(function() { jasmineEnv.execute(); });
+</code></pre>
+
+<h1>Jasmine jQuery</h1>
+
+<p><a href="https://github.com/velesin/jasmine-jquery">Jasmin jQuery</a>.</p>
+
+<pre><code>expect($(&#39;#id&#39;)).toBe(&#39;div&#39;)
+expect($(&#39;input[type=checkbox]&#39;)).toBeChecked()
+expect($(&#39;input[type=checkbox]&#39;)).toBeDisabled()
+expect($(&#39;input[type=checkbox]&#39;)).toBeFocused()
+expect($(&#39;#menu ul&#39;)).toBeEmpty()
+
+expect($(&#39;#toolbar&#39;)).toBeHidden()
+expect($(&#39;#toolbar&#39;)).toBeVisible()
+
+expect($(&#39;#popup&#39;)).toHaveCss({ margin: &quot;10px&quot; })
+expect($(&#39;option&#39;)).toBeSelected()
+
+expect($(&#39;.foo&#39;)).toExist()
+
+expect($(&#39;a&#39;)).toHaveAttr(&#39;rel&#39;)
+expect($(&#39;a&#39;)).toHaveAttr(&#39;rel&#39;, &#39;nofollow&#39;)
+
+expect($(&#39;a&#39;)).toHaveClass(&#39;rel&#39;)
+expect($(&#39;a&#39;)).toHaveId(&#39;home&#39;)
+
+expect($(&#39;a&#39;)).toHaveHtml(&#39;&lt;span&gt;&lt;/span&gt;&#39;)
+expect($(&#39;a&#39;)).toContainHtml(&#39;&lt;span&gt;&lt;/span&gt;&#39;)
+expect($(&#39;a&#39;)).toHaveText(&#39;hi&#39;)
+
+expect($form).toHandle(&#39;submit&#39;) // event
+expect($form).toHandleWith(&#39;submit&#39;, onSumbit)
+</code></pre>
+
+<h3>Event spies</h3>
+
+<pre><code>spyOnEvent($(&#39;#some_element&#39;), &#39;click&#39;);
+$(&#39;#some_element&#39;).click();
+expect(&#39;click&#39;).toHaveBeenPreventedOn($(&#39;#some_element&#39;));
+expect(&#39;click&#39;).toHaveBeenTriggeredOn($(&#39;#some_element&#39;));
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

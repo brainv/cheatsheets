@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      IE bug compenduum
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>IE8: &#39;change&#39; event doesn&#39;t always fire</h3>
+
+<p>Not for checkboxes, radios, multi-select lists. Use the <code>click</code> handler instead.</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/8005442/checkbox-change-event-works-when-click-the-label-in-ie8-ie7">(1)</a></li>
+</ul>
+
+<h3>IE8: clicking label with input inside doesn&#39;t focus the input</h3>
+
+<ul>
+<li><a href="http://www.gtalbot.org/BrowserBugsSection/MSIE7Bugs/LabelForWithImage.html">(1)</a></li>
+</ul>
+
+<h3>IE8: an element&#39;s &#39;opacity&#39; value isn&#39;t propogated to its positioned descendants</h3>
+
+<ul>
+<li><a href="http://jhop.me/tests/bugs/ie8/opacity_positioned.html">test case</a></li>
+</ul>
+
+<h3>Lnks</h3>
+
+<ul>
+<li><a href="http://jhop.me/ie8-bugs">jhop.me</a></li>
+<li><a href="http://www.charlescooke.me.uk/web/lab_notes/bugs/index.html">charlescooke.me.uk</a></li>
+</ul>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>

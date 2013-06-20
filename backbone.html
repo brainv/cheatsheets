@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='background'></div>
+  <div class='all'>
+    <h1>
+      Backbone.js
+      <a class='back' href='.'>Index</a>
+    </h1>
+    <h3>Binding events</h3>
+
+<pre><code>.on(&#39;event&#39;, callback);
+.on(&#39;event&#39;, callback, context);
+
+.on({
+  &#39;event1&#39;: callback,
+  &#39;event2&#39;: callback
+});
+
+.on(&#39;all&#39;, callback);
+
+.once(&#39;event&#39;, callback);   /* Only happens once */
+</code></pre>
+
+<h3>Unbinding events</h3>
+
+<pre><code>object.off(&quot;change&quot;, onChange);    // just the `onChange` callback
+object.off(&quot;change&quot;);              // all &quot;change&quot; callbacks
+object.off(null, onChange);        // `onChange` callback for all events
+object.off(null, null, context);   // all callbacks for `context` all events
+object.off();                      // all
+</code></pre>
+
+<h3>Events</h3>
+
+<pre><code>object.trigger(&#39;event&#39;)
+
+view.listenTo(object, event, callback)
+view.stopListening()
+</code></pre>
+
+<h3>List of events</h3>
+
+<ul>
+<li><p>Collection:</p>
+
+<ul>
+<li><code>add</code> (model, collection, options)</li>
+<li><code>remove</code> (model, collection, options)</li>
+<li><code>reset</code> (collection, options)</li>
+<li><code>sort</code> (collection, options)</li>
+</ul></li>
+<li><p>Model:</p>
+
+<ul>
+<li><code>change</code> (model, options)</li>
+<li><code>change:[attr]</code> (model, value, options)</li>
+<li><code>destroy</code> (model, collection, options)</li>
+<li><code>error</code> (model, xhr, options)</li>
+</ul></li>
+<li><p>Model and collection:</p>
+
+<ul>
+<li><code>request</code> (model, xhr, options)</li>
+<li><code>sync</code> (model, resp, options)</li>
+</ul></li>
+<li><p>Router:</p>
+
+<ul>
+<li><code>route:[name]</code> (params)</li>
+<li><code>route</code> (router, route, params)</li>
+</ul></li>
+</ul>
+
+<h3>Views</h3>
+
+<pre><code>// All attributes are optional
+var View = Backbone.View.extend({
+  model: doc,
+
+  tagName: &#39;div&#39;,
+  className: &#39;document-item&#39;,
+  id: &quot;document-&quot; + doc.id,
+  attributes: { href: &#39;#&#39; },
+
+  el: &#39;body&#39;,
+
+  events: {
+    &#39;click button.save&#39;: &#39;save&#39;,
+    &#39;click .cancel&#39;: function() { ... },
+    &#39;click&#39;: &#39;onclick&#39;
+  },
+
+  constructor: function() { ... },
+  render: function() { ... }
+});
+
+view = new View();
+view = new View({ el: ... });
+
+view.$el.show();
+view.$(&quot;input&quot;);
+
+view.remove();
+
+view.delegateEvents();
+view.undelegateEvents();
+</code></pre>
+
+<h3>Model</h3>
+
+<pre><code>// All attributes are optional
+var Model = Backbone.Model.extend({
+  defaults: {
+    &#39;author&#39;: &#39;unknown&#39;
+  },
+  idAttribute: &#39;_id&#39;,
+  parse: function() {
+  }
+});
+
+var obj = new Model({ title: &quot;Lolita&quot;, author: &quot;Nabokov&quot; });
+
+var obj = new Model({ collection: ... });
+
+obj.id
+obj.cid   //=&gt; &quot;c38&quot; (client-side ID)
+
+obj.clone()
+
+obj.hasChanged(&#39;title&#39;)
+obj.changedAttributes()  /* false, or hash */
+obj.previousAttributes() /* false, or hash */
+obj.previous(&#39;title&#39;)
+
+obj.isNew()
+
+obj.set({ title: &#39;A Study in Pink&#39; });
+obj.set({ title: &#39;A Study in Pink&#39; }, { validate: true, silent: true });
+obj.unset(&#39;title&#39;)
+
+obj.get(&#39;title&#39;)
+obj.has(&#39;title&#39;)
+obj.escape(&#39;title&#39;)     /* Like .get() but HTML-escaped */
+
+obj.clear()
+obj.clear({ silent: true })
+
+obj.save()
+obj.save({ attributes })
+obj.save(null, {
+  silent: true, patch: true, wait: true,
+  success: callback, error: callback
+})
+
+obj.destroy()
+obj.destroy({
+  wait: true,
+  success: callback, error: callback
+})
+
+obj.toJSON()
+
+obj.fetch()
+obj.fetch({ success: callback, error: callback })
+</code></pre>
+
+<h3>Model: validation</h3>
+
+<pre><code>var Model = Backbone.Model.extend({
+  validate: function(attrs, options) {
+    if (attrs.end &lt; attrs.start) {
+      return &quot;Can&#39;t end before it starts&quot;;
+    }
+  }
+});
+
+obj.validationError  //=&gt; &quot;Can&#39;t end before it starts&quot;
+obj.isValid()
+obj.on(&#39;invalid&#39;, function(model, error) { ... })
+
+// Triggered on:
+obj.save()
+obj.set({...}, { validate: true })
+</code></pre>
+
+<h3>Model: custom URLs</h3>
+
+<pre><code>var Model = Backbone.Model.extend({
+  // Single URL (string or function)
+  url: &#39;/account&#39;,
+  url: function() { return &#39;/account&#39;; },
+
+  // Both of these two work the same way
+  url: function() { return &#39;/books/&#39; + this.id }),
+  urlRoot: &#39;/books&#39;
+});
+
+var obj = new Model({ url: ... });
+var obj = new Model({ urlRoot: ... });
+</code></pre>
+
+  </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  <script src="http://cachedcommons.org/cache/prettify/1.0.0/javascripts/prettify-min.js"></script>
+  <script>$("pre").addClass("prettyprint");</script>
+  <script>prettyPrint();</script>
+</body>
+</html>
